@@ -4,6 +4,10 @@ pour jouer:
   - lancer la fonction main dans le fichier main/TicTacToeCLI.java
 
 Video démonstration:
-  https://github.com/user-attachments/assets/56afb050-09c3-42d0-83fa-2280ba6d780d
+  
+
+https://github.com/user-attachments/assets/be8d41ed-31d8-4ba7-bb4f-b9a800048843
+
+
 
 
