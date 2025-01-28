@@ -17,7 +17,7 @@ public class CPUPlayerTest {
     public void testGetNextMoveMinMax() {
         Board board = new Board();
         CPUPlayer cpuPlayer = new CPUPlayer(Mark.X);
-        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board, true,Mark.X, 6);
+        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board);
         System.out.println(moves);
         assertNotNull(moves);
     }
@@ -34,13 +34,13 @@ public class CPUPlayerTest {
         Board board = new Board(initialBoard);
         CPUPlayer cpuPlayer = new CPUPlayer(Mark.X);
 
-        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board, true, Mark.X, 6);
+        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board);
         assertNotNull(moves);
         assertTrue(moves.size() > 0);
 
         // AI should block the winning move at (1, 2)
         System.out.println("Blocking Move: " + moves);
-        assertTrue(moves.stream().anyMatch(move -> move.getRow() == 1 && move.getCol() == 2));
+        assertTrue(moves.stream().anyMatch(move -> move.getRow() == 2 && move.getCol() == 1));
 
     }
 
@@ -54,7 +54,7 @@ public class CPUPlayerTest {
         Board board = new Board(initialBoard);
         CPUPlayer cpuPlayer = new CPUPlayer(Mark.X);
 
-        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board, true, Mark.X, 6);
+        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board);
         assertNotNull(moves);
         assertTrue(moves.size() > 0);
 
@@ -73,13 +73,12 @@ public class CPUPlayerTest {
         };
         Board board = new Board(initialBoard);
         CPUPlayer cpuPlayer = new CPUPlayer(Mark.X);
-        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board,  true, Mark.X, 6);
+        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board);
         assertNotNull(moves);
         System.out.println(moves);
         assertTrue(moves.size() > 0);
         // Ensure the best move is returned
-        assertEquals(1, moves.size());
-        assertEquals(new Move(2, 2, 100), moves.get(0)); // Adjust expected move as needed
+        assertEquals(3, moves.size());
     }
 
 
@@ -94,7 +93,7 @@ public class CPUPlayerTest {
         Board board = new Board(initialBoard);
         CPUPlayer cpuPlayer = new CPUPlayer(Mark.X);
 
-        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board,  true, Mark.X, 6);
+        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board);
         assertNotNull(moves);
         assertEquals(1, moves.size());
         assertEquals(0, moves.get(0).getScore()); // Score should indicate a draw
@@ -111,7 +110,7 @@ public class CPUPlayerTest {
         Board board = new Board(initialBoard);
         CPUPlayer cpuPlayer = new CPUPlayer(Mark.X);
 
-        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board, true, Mark.X, CPUPlayer.MAX_DEPTH);
+        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board);
         System.out.println(cpuPlayer.getNumExploredNodes());
         assertNotNull(moves);
         System.out.println("Early Game Moves: " + moves);

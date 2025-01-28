@@ -6,13 +6,24 @@ import java.util.Scanner;
 public class TicTacToeCLI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Board board = new Board(); // Assume your `Board` class has a default constructor initializing an empty board
-        CPUPlayer cpuPlayer = new CPUPlayer(Mark.X); // AI plays as 'O'
-        boolean isPlayerTurn = true; // Player starts first
-        Mark playerMark = Mark.O; // Player is 'X'
+        Board board = new Board();
+        CPUPlayer cpuPlayer = new CPUPlayer(Mark.X);
+        boolean isPlayerTurn = true;
+        Mark playerMark = Mark.O;
 
+        // Ask user to choose algorithm
         System.out.println("Welcome to Tic-Tac-Toe! You are 'O'.");
-        board.printBoard(); // Add a method in your Board class to display the board
+        System.out.println("Choose AI algorithm:");
+        System.out.println("1. MinMax");
+        System.out.println("2. Alpha-Beta Pruning");
+
+        int algorithmChoice;
+        do {
+            System.out.print("Enter your choice (1 or 2): ");
+            algorithmChoice = scanner.nextInt();
+        } while (algorithmChoice != 1 && algorithmChoice != 2);
+
+        board.printBoard();
 
         while (board.isMovesLeft()) {
             if (isPlayerTurn) {
@@ -20,7 +31,7 @@ public class TicTacToeCLI {
                 int row = scanner.nextInt();
                 int col = scanner.nextInt();
 
-                if (board.isValidMove(row, col)) { // Ensure the move is valid
+                if (board.isValidMove(row, col)) {
                     board.play(new Move(row, col), playerMark);
                     isPlayerTurn = false;
                 } else {
@@ -28,17 +39,27 @@ public class TicTacToeCLI {
                 }
             } else {
                 System.out.println("AI is making its move...");
-                ArrayList<Move> aiMoves = cpuPlayer.getNextMoveMinMax(board, true, Mark.X, CPUPlayer.MAX_DEPTH);
+                ArrayList<Move> aiMoves;
+
+                // Use chosen algorithm
+                if (algorithmChoice == 1) {
+                    aiMoves = cpuPlayer.getNextMoveMinMax(board);
+                    System.out.println("Using MinMax algorithm");
+                } else {
+                    aiMoves = cpuPlayer.getNextMoveAB(board);
+                    System.out.println("Using Alpha-Beta Pruning algorithm");
+                }
+
                 System.out.println(aiMoves);
-                Move bestMove = aiMoves.get(0); // Take the first move (guaranteed winning or optimal)
+                Move bestMove = aiMoves.get(0);
                 board.play(bestMove, Mark.X);
-                System.out.println("AI played at (" + bestMove.getRow() + ", " + bestMove.getCol() + ").");
+                System.out.println("AI played at (" + bestMove.getRow() + ", " + bestMove.getCol() + ")");
+                System.out.println("Number of nodes explored: " + cpuPlayer.getNumExploredNodes());
                 isPlayerTurn = true;
             }
 
-            board.printBoard(); // Display the board after each move
+            board.printBoard();
 
-            // Check for a winner
             int score = board.evaluate(playerMark);
             if (score == 100) {
                 System.out.println("Congratulations, you win!");
